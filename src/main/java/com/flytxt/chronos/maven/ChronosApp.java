@@ -22,6 +22,10 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+import lombok.Data;
 
 /**
  * The ChronosApp class
@@ -29,13 +33,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author gazal
  *
  */
+@Data
+@JsonInclude(Include.NON_NULL)
 public class ChronosApp implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String name;
 
+    private String description;
+
     private String command;
+
+    private String arguments;
 
     private Integer retries;
 
@@ -47,64 +57,10 @@ public class ChronosApp implements Serializable {
 
     private String mem;
 
+    private String schedule;
+
     @JsonIgnore
     private final Map<String, Object> additionalProperties = new HashMap<>();
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    public String getCommand() {
-        return command;
-    }
-
-    public void setCommand(final String command) {
-        this.command = command;
-    }
-
-    public Integer getRetries() {
-        return retries;
-    }
-
-    public void setRetries(final Integer retries) {
-        this.retries = retries;
-    }
-
-    public Boolean getShell() {
-        return shell;
-    }
-
-    public void setShell(final Boolean shell) {
-        this.shell = shell;
-    }
-
-    public Container getContainer() {
-        return container;
-    }
-
-    public void setContainer(final Container container) {
-        this.container = container;
-    }
-
-    public String getCpus() {
-        return cpus;
-    }
-
-    public void setCpus(final String cpus) {
-        this.cpus = cpus;
-    }
-
-    public String getMem() {
-        return mem;
-    }
-
-    public void setMem(final String mem) {
-        this.mem = mem;
-    }
 
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
@@ -116,6 +72,7 @@ public class ChronosApp implements Serializable {
         this.additionalProperties.put(name, value);
     }
 
+    @Data
     public class Container {
 
         private String type;
@@ -128,38 +85,6 @@ public class ChronosApp implements Serializable {
 
         @JsonIgnore
         private final Map<String, Object> additionalProperties = new HashMap<>();
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(final String type) {
-            this.type = type;
-        }
-
-        public String getImage() {
-            return image;
-        }
-
-        public void setImage(final String image) {
-            this.image = image;
-        }
-
-        public Boolean getForcePullImage() {
-            return forcePullImage;
-        }
-
-        public void setForcePullImage(final Boolean forcePullImage) {
-            this.forcePullImage = forcePullImage;
-        }
-
-        public String getNetwork() {
-            return network;
-        }
-
-        public void setNetwork(final String network) {
-            this.network = network;
-        }
 
         @JsonAnyGetter
         public Map<String, Object> getAdditionalProperties() {
