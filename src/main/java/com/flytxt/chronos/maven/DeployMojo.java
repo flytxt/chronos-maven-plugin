@@ -25,6 +25,8 @@ import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.IOUtil;
 
@@ -34,6 +36,7 @@ import org.codehaus.plexus.util.IOUtil;
  * @author gazal
  *
  */
+@Mojo(name = "deploy", defaultPhase = LifecyclePhase.DEPLOY)
 public class DeployMojo extends AbstractChronosMojo {
 
     /**
