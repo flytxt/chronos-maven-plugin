@@ -1,0 +1,8 @@
+<FindBugsFilter>
+
+    <!-- HelpMojo is generated code -->
+    <Match>
+        <Class name="com.flytxt.chronos.maven.HelpMojo" />
+    </Match>
+
+</FindBugsFilter>

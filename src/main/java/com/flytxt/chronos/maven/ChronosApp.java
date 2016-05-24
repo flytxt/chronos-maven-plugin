@@ -73,7 +73,9 @@ public class ChronosApp implements Serializable {
     }
 
     @Data
-    public class Container {
+    public static class Container implements Serializable {
+
+        private static final long serialVersionUID = 1L;
 
         private String type;
 

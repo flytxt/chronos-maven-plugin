@@ -33,14 +33,14 @@ public class Utils {
 
     public static final String API_PATH = "/scheduler/iso8601";
 
-    public static final ObjectMapper objectMapper = new ObjectMapper();
+    public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private Utils() {
     }
 
     public static ChronosApp readApp(final String file) throws MojoExecutionException {
         try {
-            return objectMapper.readValue(new File(file), new TypeReference<ChronosApp>() {
+            return OBJECT_MAPPER.readValue(new File(file), new TypeReference<ChronosApp>() {
             });
         } catch (final IOException e) {
             throw new MojoExecutionException("unmarshalling Chronos config file from " + file + " failed", e);
@@ -49,7 +49,7 @@ public class Utils {
 
     public static void writeApp(final ChronosApp app, final String file) throws MojoExecutionException {
         try {
-            objectMapper.writeValue(new File(file), app);
+            OBJECT_MAPPER.writeValue(new File(file), app);
         } catch (final IOException e) {
             throw new MojoExecutionException("marshalling Chronos config file to " + file + " failed", e);
         }

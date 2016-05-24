@@ -75,7 +75,7 @@ public class DeployMojoTest extends AbstractChronosMojoTestWithJUnit4 {
         final RecordedRequest createAppRequest = server.takeRequest();
         assertEquals(Utils.API_PATH, createAppRequest.getPath());
         assertEquals("POST", createAppRequest.getMethod());
-        final ChronosApp requestApp = Utils.objectMapper.readValue(createAppRequest.getBody().readUtf8(), ChronosApp.class);
+        final ChronosApp requestApp = Utils.OBJECT_MAPPER.readValue(createAppRequest.getBody().readUtf8(), ChronosApp.class);
         assertNotNull(requestApp);
     }
 

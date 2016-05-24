@@ -13,31 +13,3 @@
  * and (v) constitutes the confidential information of Flytxt BV. Any use, reproduction, modification, distribution, public performance or display of this software
  * or through the use of this software without the prior, express written consent of Flytxt BV is strictly prohibited and may be in violation of applicable laws.
  */
-package com.flytxt.chronos.maven;
-
-import org.apache.maven.execution.MavenSession;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecution;
-import org.apache.maven.plugins.annotations.Parameter;
-
-/**
- * The AbstractChronosMojo class
- *
- * @author gazal
- *
- */
-public abstract class AbstractChronosMojo extends AbstractMojo {
-
-    @Parameter(defaultValue = "${session}", readonly = true)
-    protected MavenSession session;
-
-    @Parameter(defaultValue = "${mojoExecution}", readonly = true)
-    protected MojoExecution execution;
-
-    /**
-     * Path to JSON file to write when processing Chronos config. Default is ${project.build.directory}/chronos.json
-     */
-    @Parameter(property = "finalChronosConfigFile", defaultValue = "${project.build.directory}/chronos.json")
-    protected String finalChronosConfigFile;
-
-}
