@@ -51,12 +51,12 @@ public class ProcessConfigMojo extends AbstractChronosMojo {
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         getLog().info("processing Chronos config file from " + sourceChronosConfigFile + " to " + finalChronosConfigFile);
-        final ChronosApp app = readApp(sourceChronosConfigFile);
+        final ChronosApp app = Utils.readApp(sourceChronosConfigFile);
         if (name != null) {
             app.setName(name);
         }
         app.getContainer().setImage(image);
-        writeApp(app, finalChronosConfigFile);
+        Utils.writeApp(app, finalChronosConfigFile);
     }
 
 }

@@ -15,33 +15,43 @@
  */
 package com.flytxt.chronos.maven;
 
-import org.apache.maven.execution.MavenSession;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecution;
-import org.apache.maven.plugins.annotations.Parameter;
+import java.io.File;
+import java.io.IOException;
 
+import org.apache.maven.plugin.MojoExecutionException;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * The AbstractChronosMojo class
+ * The Utils class
  *
  * @author gazal
  *
  */
-public abstract class AbstractChronosMojo extends AbstractMojo {
+public class Utils {
 
-    protected ObjectMapper objectMapper = new ObjectMapper();
+    public static final String API_PATH = "/scheduler/iso8601";
 
-    @Parameter(defaultValue = "${session}", readonly = true)
-    protected MavenSession session;
+    public static final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Parameter(defaultValue = "${mojoExecution}", readonly = true)
-    protected MojoExecution execution;
+    private Utils() {
+    }
 
-    /**
-     * Path to JSON file to write when processing Chronos config. Default is ${project.build.directory}/chronos.json
-     */
-    @Parameter(property = "finalChronosConfigFile", defaultValue = "${project.build.directory}/chronos.json")
-    protected String finalChronosConfigFile;
+    public static ChronosApp readApp(final String file) throws MojoExecutionException {
+        try {
+            return objectMapper.readValue(new File(file), new TypeReference<ChronosApp>() {
+            });
+        } catch (final IOException e) {
+            throw new MojoExecutionException("unmarshalling Chronos config file from " + file + " failed", e);
+        }
+    }
 
+    public static void writeApp(final ChronosApp app, final String file) throws MojoExecutionException {
+        try {
+            objectMapper.writeValue(new File(file), app);
+        } catch (final IOException e) {
+            throw new MojoExecutionException("marshalling Chronos config file to " + file + " failed", e);
+        }
+    }
 }

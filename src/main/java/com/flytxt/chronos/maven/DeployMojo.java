@@ -58,7 +58,7 @@ public class DeployMojo extends AbstractChronosMojo {
             entity.setContentType("application/json");
             HttpResponse response;
             try {
-                response = Request.Post(chronosHost + "/scheduler/iso8601").body(entity).execute().returnResponse();
+                response = Request.Post(chronosHost + Utils.API_PATH).body(entity).execute().returnResponse();
             } catch (final IOException e) {
                 throw new MojoExecutionException("posting to Chronos at " + chronosHost + " failed", e);
             }

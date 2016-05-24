@@ -1,0 +1,26 @@
+{
+  "name":"test-app",
+  "command":"",
+  "retries": 0,
+  "shell":false,
+  "container":{
+    "type":"DOCKER",
+    "image":"docker-registry.your.org/test-app",
+    "forcePullImage":true,
+    "network":"BRIDGE",
+    "volumes":[
+      {
+        "hostPath":"/etc/localtime",
+        "containerPath":"/etc/localtime",
+        "mode":"RO"
+      },
+      {
+        "hostPath":"/usr/share/zoneinfo/",
+        "containerPath":"/usr/share/zoneinfo/",
+        "mode":"RO"
+      }
+    ]
+  },
+  "cpus":"1",
+  "mem":"1536"
+}
