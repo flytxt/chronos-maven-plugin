@@ -16,6 +16,7 @@
 package com.flytxt.test.chronos.maven;
 
 import java.io.FileNotFoundException;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.plexus.configuration.DefaultPlexusConfiguration;
@@ -54,6 +55,7 @@ public class DeployMojoTest extends AbstractChronosMojoTestWithJUnit4 {
         final PlexusConfiguration pluginCfg = new DefaultPlexusConfiguration("configuration");
         pluginCfg.addChild("chronosHost", getChronosHost());
         pluginCfg.addChild("finalChronosConfigFile", chronosFile);
+        pluginCfg.addChild("timeout", "1");
         return (DeployMojo) lookupChronosMojo("deploy", pluginCfg);
     }
 
@@ -97,6 +99,23 @@ public class DeployMojoTest extends AbstractChronosMojoTestWithJUnit4 {
         server.enqueue(new MockResponse().setResponseCode(500));
         thrown.expect(MojoExecutionException.class);
         thrown.expectMessage("error response from Chronos, status: ");
+
+        final DeployMojo mojo = lookupDeployMojo();
+        assertNotNull(mojo);
+
+        mojo.execute();
+
+        assertEquals(1, server.getRequestCount());
+
+        final RecordedRequest getAppRequest = server.takeRequest();
+        assertEquals(Utils.API_PATH, getAppRequest.getPath());
+        assertEquals("POST", getAppRequest.getMethod());
+    }
+
+    @Test
+    public void testDeploymentFailedDueToTimeout() throws Exception {
+        server.enqueue(new MockResponse().throttleBody(1, 5, TimeUnit.SECONDS));
+        thrown.expect(MojoExecutionException.class);
 
         final DeployMojo mojo = lookupDeployMojo();
         assertNotNull(mojo);

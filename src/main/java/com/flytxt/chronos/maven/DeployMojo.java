@@ -45,6 +45,12 @@ public class DeployMojo extends AbstractChronosMojo {
     @Parameter(property = "chronosHost", required = true)
     private String chronosHost;
 
+    /**
+     * Timeout (in seconds) to chronos as specified in pom.xml.
+     */
+    @Parameter(property = "timeout", defaultValue = "30")
+    private int timeout;
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         FileInputStream fileInputStream = null;
@@ -58,7 +64,7 @@ public class DeployMojo extends AbstractChronosMojo {
             entity.setContentType("application/json");
             HttpResponse response;
             try {
-                response = Request.Post(chronosHost + Utils.API_PATH).body(entity).execute().returnResponse();
+                response = Request.Post(chronosHost + Utils.API_PATH).body(entity).socketTimeout(timeout * 1000).execute().returnResponse();
             } catch (final IOException e) {
                 throw new MojoExecutionException("posting to Chronos at " + chronosHost + " failed", e);
             }
