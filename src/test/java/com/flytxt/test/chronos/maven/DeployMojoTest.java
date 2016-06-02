@@ -114,7 +114,7 @@ public class DeployMojoTest extends AbstractChronosMojoTestWithJUnit4 {
 
     @Test
     public void testDeploymentFailedDueToTimeout() throws Exception {
-        server.enqueue(new MockResponse().throttleBody(1, 5, TimeUnit.SECONDS));
+        server.enqueue(new MockResponse().throttleBody(1, 1, TimeUnit.SECONDS));
         thrown.expect(MojoExecutionException.class);
 
         final DeployMojo mojo = lookupDeployMojo();
