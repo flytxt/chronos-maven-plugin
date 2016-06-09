@@ -1,7 +1,7 @@
 chronos-maven-plugin
 =====================
 
-Maven plugin for interacting with Chronos
+Maven plugin for interacting with Chronos (Apache Mesos Framework)
 
 It can both process `chronos.json` config and use it to push it to Chronos host for deployment. 
 
@@ -19,29 +19,29 @@ Add plugin configuration to your `pom.xml`:
 
 ```xml
 <plugin>
-	<groupId>com.flytxt</groupId>
-	<artifactId>chronos-maven-plugin</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<configuration>
-		<image>${docker-image-prefix}/${project.build.finalName}:${project.version}-${gitShortCommitId}</image>
-		<chronosHost>${chronos.url}</chronosHost>
-	</configuration>
-	<executions>
-		<execution>
-			<id>processConfig</id>
-			<phase>install</phase>
-			<goals>
-				<goal>processConfig</goal>
-			</goals>
-		</execution>
-		<execution>
-			<id>deploy</id>
-			<phase>deploy</phase>
-			<goals>
-				<goal>deploy</goal>
-			</goals>
-		</execution>
-	</executions>
+    <groupId>com.flytxt</groupId>
+    <artifactId>chronos-maven-plugin</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <configuration>
+        <image>${docker-image-prefix}/${project.build.finalName}:${project.version}-${gitShortCommitId}</image>
+        <chronosHost>${chronos.url}</chronosHost>
+    </configuration>
+    <executions>
+        <execution>
+            <id>processConfig</id>
+            <phase>install</phase>
+            <goals>
+                <goal>processConfig</goal>
+            </goals>
+        </execution>
+        <execution>
+            <id>deploy</id>
+            <phase>deploy</phase>
+            <goals>
+                <goal>deploy</goal>
+            </goals>
+        </execution>
+    </executions>
 </plugin>
 ```
 
