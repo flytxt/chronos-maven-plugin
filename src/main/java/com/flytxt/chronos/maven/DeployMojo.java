@@ -24,7 +24,6 @@
 package com.flytxt.chronos.maven;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
 
@@ -61,13 +60,7 @@ public class DeployMojo extends AbstractChronosMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        FileInputStream fileInputStream = null;
-        try {
-            try {
-                fileInputStream = new FileInputStream(finalChronosConfigFile);
-            } catch (final FileNotFoundException e) {
-                throw new MojoExecutionException("reading Chronos config file from " + finalChronosConfigFile + " failed", e);
-            }
+        try (FileInputStream fileInputStream = new FileInputStream(finalChronosConfigFile)) {
             final InputStreamEntity entity = new InputStreamEntity(fileInputStream);
             entity.setContentType("application/json");
             HttpResponse response;
@@ -81,17 +74,13 @@ public class DeployMojo extends AbstractChronosMojo {
                 try {
                     IOUtil.copy(response.getEntity().getContent(), writer);
                 } catch (UnsupportedOperationException | IOException e) {
+                    writer.append("error reading response body: ").append(e.getLocalizedMessage());
                 }
                 throw new MojoExecutionException("error response from Chronos, status: " + response.getStatusLine() + " body: " + writer.toString());
             }
             getLog().info("app deployed to chronos");
-        } finally {
-            if (null != fileInputStream) {
-                try {
-                    fileInputStream.close();
-                } catch (final IOException e) {
-                }
-            }
+        } catch (final IOException e) {
+            throw new MojoExecutionException("reading Chronos config file from " + finalChronosConfigFile + " failed", e);
         }
     }
 
